@@ -18,7 +18,6 @@ exampleRoutes.route('/')
   })
   .options((req, res) => {
     console.log('OPTIONS request');
-
     res.setHeader('Allow', 'GET, POST, OPTIONS');
     res.sendStatus(200);
 });
