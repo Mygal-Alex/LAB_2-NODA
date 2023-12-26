@@ -4,7 +4,6 @@ import exampleRoutes from '/app/handlers/example.js';
 import usersRoutes from '/app/handlers/users.js';
 import xmlRoute from '/app/handlers/xmlRoute.js';
 import homePage from '/app/handlers/homePage.js';
-import shutdown from '/app/handlers/shutdown.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,14 +16,20 @@ app.use('/', homePage);
 app.use('/example', exampleRoutes);
 app.use('/users', usersRoutes);
 app.use('/xmlRoute', xmlRoute);
-app.use('/shutdown', shutdown);
 
 const server = app.listen(port, () => {
   console.log(`Сервер запущено на порті ${port}`);
 });
 
+app.post('/shutdown', (req, res) => {
+  console.log('Закриття сервера по запросу...');
+  res.send('Сервер закривається по запиту...');
+  server.close(() => {
+    console.log('Сервер закритий.');
+  });
+});
 process.on('SIGTERM', () => {
-  console.log('Принят сигнал завершения. Закриття сервера...');
+  console.log('Приняття сигналу завершення. Закриття сервера...');
   server.close(() => {
     console.log('Сервер закритий.');
     process.exit(0);
