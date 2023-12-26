@@ -21,8 +21,16 @@ const server = app.listen(port, () => {
   console.log(`Сервер запущено на порті ${port}`);
 });
 
+app.post('/shutdown', (req, res) => {
+  console.log('Закриття сервера по запросу...');
+  res.send('Сервер закривається по запиту...');
+  server.close(() => {
+    console.log('Сервер закритий.');
+  });
+});
+
 process.on('SIGTERM', () => {
-  console.log('Приняття сигналу завершення. Закриття сервера...');
+  console.log('Принят сигнал завершения. Закриття сервера...');
   server.close(() => {
     console.log('Сервер закритий.');
     process.exit(0);
