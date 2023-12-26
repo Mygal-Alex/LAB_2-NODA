@@ -28,6 +28,7 @@ app.post('/shutdown', (req, res) => {
     console.log('Сервер закритий.');
   });
 });
+
 process.on('SIGTERM', () => {
   console.log('Приняття сигналу завершення. Закриття сервера...');
   server.close(() => {
